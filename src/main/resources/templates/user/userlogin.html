@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>登入</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{../../static/res/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{../../static/res/css/global.css}">
+
+    <script th:src="@{../../static/res/mods/jquery-3.4.1.min.js}"></script>
+    <style type="text/css">
+        #code {
+            font-family: Arial;
+            font-style: italic;
+            font-weight: bold;
+            font-size: 22px;
+            padding: 5px;
+            border: 0;
+            letter-spacing: 2px;
+            color: blue;
+            background: #8b888c;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="fly-header layui-bg-black">
+    <div class="layui-container">
+        <a class="fly-logo" th:href="@{/}">
+            <img th:src="@{../../static/res/images/logoko.png}" style="width: 83px;height: 40px" alt="logo">
+        </a>
+        <ul class="layui-nav fly-nav layui-hide-xs">
+            <li class="layui-nav-item layui-this">
+                <a th:href="@{/}"><i class="iconfont icon-jiaoliu"></i>主页</a>
+            </li>
+
+        </ul>
+
+        <ul class="layui-nav fly-nav-user">
+            <!-- 未登入的状态 -->
+            <li class="layui-nav-item">
+                <a class="iconfont icon-touxiang layui-hide-xs" th:href="@{/user/login}"></a>
+            </li>
+
+            <li class="layui-nav-item">
+                <a href="user/reg.html">注册</a>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+<div class="layui-container fly-marginTop">
+    <div class="fly-panel fly-panel-user" pad20>
+        <div class="layui-tab layui-tab-brief" lay-filter="user">
+            <ul class="layui-tab-title">
+                <li class="layui-this">用户</li>
+                <li><a th:href="@{/bus/login}">商家</a></li>
+            </ul>
+            <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form layui-form-pane">
+
+                        <div class="layui-form-item">
+                            <label for="L_text" class="layui-form-label">账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="L_text" name="username" required lay-verify="required"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label for="L_pass" class="layui-form-label">密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" id="L_pass" name="password" required lay-verify="required"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label for="L_vercode" class="layui-form-label">登录验证</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="L_vercode" name="vercode" required lay-verify="required"
+                                       placeholder="请输入验证码" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid">
+                                <span id="code" onclick=createCode()></span>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <button class="layui-btn" lay-submit="" id="userSubmit" lay-filter="demo2">立即登录</button>
+                            <span style="padding-left:20px;"><a href="forget.html">忘记密码？</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fly-footer">
+    <p><a href="http://www.baidu.com/" target="_blank">兼职</a> 2019/12/12 &copy; <a href="/" target="_blank">https://www.wxwyz.com
+        出品</a></p>
+</div>
+
+<script th:src="@{../../static/res/layui/layui.js}"></script>
+
+<script th:src="@{../../static/res/mods/code.js}"></script>
+
+<script>
+
+
+    layui.use(['form', 'layedit', 'laydate', 'layer', 'jquery'], function () {
+
+        var form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate, $ = layui.jquery;
+
+        createCode();
+
+        $('#code').click(function () {
+            createCode();
+        });
+
+        $('#userSubmit').click(function () {
+
+            if ($('#L_text').val() === "") {
+                // layer.msg('错误', {
+                //     icon: 5,
+                //     time: 1000
+                // });
+            } else if ($('#L_pass').val() === "") {
+
+            } else if (validate($('#L_vercode').val()) === false) {
+                layer.msg('验证码错误', {
+                    icon: 5,
+                    time: 1000
+                });
+            } else {
+                $.ajax({
+                    url: "/user/verify",
+                    type: "POST",
+                    data: {
+                        username: $('#L_text').val(),
+                        password: $("#L_pass").val()
+                    },
+                    beforeSend: function () {
+                        layer.load(1);
+                    },
+                    success: function (result) {
+                        if (result === "1") {
+                            window.location.replace("/");
+                        }
+                        if (result === "0"){
+                            layer.msg('账号错误', {
+                                icon: 5,
+                                time: 1000
+                            });
+                        }
+                        if (result === "0"){
+                            layer.msg('密码错误', {
+                                icon: 5,
+                                time: 1000
+                            });
+                        }
+                    },
+                    complete: function () {
+                        layer.closeAll('loading');
+                    },
+                    error: function () {
+                        alert("系统异常");
+                    }
+                });
+            }
+        });
+    });
+
+
+</script>
+
+</body>
+</html>

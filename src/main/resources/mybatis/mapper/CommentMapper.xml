@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxwyz.springboot.mapper.CommentMapper">
+
+   <insert id="insertAComment" parameterType="com.wxwyz.springboot.model.Comment">
+       insert into tb_comment(job_id,commentator,avatar,content,create_time)
+       values (#{jobId}, #{commentator}, #{avatar}, #{content}, #{createTime})
+   </insert>
+
+    <select id="queryOneJobCommNum" parameterType="integer" resultType="integer">
+        select count(*) from tb_comment where job_id = #{jobId};
+    </select>
+    
+    <select id="queryAllCommentByPage" parameterType="integer" resultType="com.wxwyz.springboot.model.Comment">
+        select * from tb_comment where job_id = #{jobId} limit #{offset},#{size};
+    </select>
+
+    <select id="queryAllCommentNum" resultType="integer">
+        select count(*) from tb_comment;
+    </select>
+
+</mapper>

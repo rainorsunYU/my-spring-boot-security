@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxwyz.springboot.mapper.PartTimeJobMapper">
+
+    <select id="queryAllJob" resultType="com.wxwyz.springboot.model.PartTimeJob">
+        select * from tb_job;
+    </select>
+    <!-- 查询所有兼职个数 -->
+    <select id="queryAllJobCounter" resultType="integer">
+        select count(*) from tb_job where state = 1;
+    </select>
+    <!-- 一个人的所有兼职数量 -->
+    <select id="queryJobCounterByParentId" resultType="integer">
+        select count(*) from tb_job where parent_id = #{id} and state = 1;
+    </select>
+
+    <select id="queryAllJobByPagination" parameterType="integer" resultType="com.wxwyz.springboot.model.PartTimeJob">
+        select * from tb_job limit #{offerSet},#{size};
+    </select>
+    <!-- 插入一个兼职 -->
+    <insert id="insertOneJob" parameterType="com.wxwyz.springboot.model.PartTimeJob">
+        insert into tb_job(token,parent_id,job_title,job_content,job_location,
+        need_number,job_salary,job_type,release_time,start_time,end_time)
+        values (#{token},#{parentId},#{jobTitle},#{jobContent},#{jobLocation},
+        #{needNumber},#{jobSalary},#{jobType},#{releaseTime},#{startTime},#{endTime})
+    </insert>
+
+    <resultMap id="allInfo" type="com.wxwyz.springboot.dto.BusinessAllInfoDTO">
+        <id property="id" column="id"></id>
+        <result property="nickname" column="nickname"></result>
+        <result property="avatars" column="avatars"></result>
+        <result property="phone" column="phone"></result>
+        <association property="partTimeJob" column="parent_id" javaType="com.wxwyz.springboot.model.PartTimeJob">
+            <id property="jobId" column="job_id"></id>
+            <result property="parentId" column="parent_id"></result>
+            <result property="jobTitle" column="job_title"></result>
+            <result property="jobContent" column="job_content"></result>
+            <result property="jobLocation" column="job_location"></result>
+            <result property="jobSalary" column="job_salary"></result>
+            <result property="needNumber" column="need_number"></result>
+            <result property="applicants" column="applicants"></result>
+            <result property="startTime" column="start_time"></result>
+            <result property="endTime" column="end_time"></result>
+            <result property="jobType" column="job_type"></result>
+            <result property="releaseTime" column="release_time"></result>
+            <result property="jobViews" column="job_views"></result>
+            <result property="state" column="state"></result>
+            <result property="token" column="token"></result>
+        </association>
+    </resultMap>
+
+    <!-- job表的state为1：用户未删除数据，0：用户删除数据 -->
+    <select id="queryJobAllInfo" parameterType="integer" resultMap="allInfo">
+       select j.*,b.nickname,b.avatars,b.phone from tb_job j,tb_business b
+       where j.parent_id = b.id and j.state = 1 order by release_time desc limit #{offerSet},#{size};
+    </select>
+    <!-- job表的state为1：用户未删除数据，0：用户删除数据 -->
+    <select id="queryDeleteJob" parameterType="integer" resultMap="allInfo">
+       select j.*,b.nickname,b.avatars,b.phone from tb_job j,tb_business b
+       where j.parent_id = b.id and j.state = #{state} order by release_time desc limit #{offerSet},#{size};
+    </select>
+    <!-- job表的state为1：用户未删除数据，0：用户删除数据 -->
+    <select id="queryJobClassify" resultMap="allInfo">
+       select j.*,b.nickname,b.avatars,b.phone from tb_job j,tb_business b
+       where j.parent_id = b.id and j.state = 1 and j.job_type = #{param3} order by release_time desc limit #{param1},#{param2};
+    </select>
+    <!-- job表的state为1：用户未删除数据，0：用户删除数据 -->
+    <select id="queryJobClassify2" resultMap="allInfo">
+       select j.*,b.nickname,b.avatars,b.phone from tb_job j,tb_business b
+       where j.parent_id = b.id and j.state = 1 and
+       j.job_type != #{param3} and j.job_type != #{param4} and j.job_type != #{param5}
+       order by release_time desc limit #{param1},#{param2};
+    </select>
+    <!-- job表的state为1：用户未删除数据，0：用户删除数据 -->
+    <select id="queryOneJobAllInfo" parameterType="integer" resultMap="allInfo">
+       select j.*,b.nickname,b.avatars,b.phone from tb_job j,tb_business b
+       where j.parent_id = b.id and j.state = 1 and j.parent_id=#{parentId} order by release_time desc limit #{offerSet},#{size};
+    </select>
+    <!-- 查询一个特定兼职的详情 -->
+    <select id="queryOneBusinessJob" parameterType="integer" resultMap="allInfo">
+        select j.*,b.nickname,b.avatars,b.phone from tb_job j,tb_business b
+        where j.parent_id = b.id and j.state = 1 and j.job_id = #{jobId};
+    </select>
+    <!-- 查询一个特定兼职的报名人数 -->
+    <select id="queryJobApplicants" parameterType="integer" resultType="integer">
+        select applicants from tb_job where job_id = #{id};
+    </select>
+    <!-- 查询一个特定兼职的报名人数 -->
+    <select id="queryJObNeedNumber" parameterType="integer" resultType="integer">
+        select need_number from tb_job where job_id = #{id};
+    </select>
+    <!-- 更新一个兼职的浏览数 -->
+    <update id="updateViews" parameterType="integer">
+        update tb_job set job_views=job_views+1 where job_id=#{jobId};
+    </update>
+    <!-- 更新一个兼职的报名人数 -->
+    <update id="updateApplicants" parameterType="integer">
+        update tb_job set applicants=applicants+1 where job_id = #{id};
+    </update>
+    <!-- 更新一个兼职的状态 -->
+    <update id="updateAJobState" parameterType="integer">
+        update tb_job set state=#{state} where job_id = #{jobId};
+    </update>
+
+    <update id="deleteAJobApplicants" parameterType="integer">
+        update tb_job set applicants=applicants-1 where job_id = #{jobId};
+    </update>
+
+    <delete id="deleteJobByAdmin" parameterType="integer">
+        delete from tb_job where job_id = #{jobId}
+    </delete>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxwyz.springboot.mapper.UserMapper">
+
+    <select id="queryAllUser" resultType="com.wxwyz.springboot.model.User">
+        select * from tb_user;
+    </select>
+
+    <select id="queryOneUser" parameterType="string" resultType="com.wxwyz.springboot.model.User">
+        select * from tb_user
+        <where>
+            <if test="username != null">
+                and username = #{username}
+            </if>
+        </where>
+    </select>
+
+</mapper>

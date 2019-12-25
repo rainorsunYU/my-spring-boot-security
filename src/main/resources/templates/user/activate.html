@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>用户中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{../../static/res/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{../../static/res/css/global.css}">
+    <link id="layuicss-layer" rel="stylesheet" th:href="@{../../static/res/layui/css/modules/layer/default/layer.css}"
+          media="all">
+    <script th:src="@{../../static/res/mods/jquery-3.4.1.min.js}"></script>
+</head>
+<body>
+
+<div class="fly-header layui-bg-black">
+    <div class="layui-container">
+        <a class="fly-logo" th:href="@{/bus/home}">
+            <img th:src="@{../../static/res/images/logoko.png}" style="width: 83px;height: 40px" alt="logo">
+        </a>
+        <ul class="layui-nav fly-nav layui-hide-xs">
+            <li class="layui-nav-item layui-this">
+                <a th:href="@{/bus/home}"><i class="iconfont icon-jiaoliu"></i>主页</a>
+            </li>
+            <li class="layui-nav-item">
+                <a><i class="iconfont icon-iconmingxinganli"></i>公告</a>
+            </li>
+        </ul>
+
+        <ul class="layui-nav fly-nav-user">
+            <!-- 登入后的状态 -->
+            <li class="layui-nav-item" th:if="${session.businessLogin != null}">
+                <a class="fly-nav-avatar" href="javascript:;">
+                    <cite class="layui-hide-xs" th:text="${session.businessLogin.nickname}">贤心</cite>
+                    <i class="layui-badge fly-badge-vip layui-hide-xs">用户</i>
+                    <img th:src="@{${session.businessLogin.avatars}}">
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/bus/setting}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
+                    <dd><a href="javascript:;"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a>
+                    </dd>
+                    <dd><a th:href="@{/bus/activate}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
+                    </dd>
+                    <hr style="margin: 5px 0;">
+                    <dd><a th:href="@{/bus/logout}" style="text-align: center;">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="layui-container fly-marginTop fly-user-main">
+    <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <i class="layui-icon">&#xe609;</i>
+                我的主页
+            </a>
+        </li>
+        <li class="layui-nav-item layui-this">
+            <a th:href="@{/bus/activate}">
+                <i class="layui-icon">&#xe612;</i>
+                用户中心
+            </a>
+        </li>
+        <li class="layui-nav-item">
+            <a th:href="@{/bus/setting}">
+                <i class="layui-icon">&#xe620;</i>
+                基本设置
+            </a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <i class="layui-icon">&#xe611;</i>
+                我的消息
+            </a>
+        </li>
+    </ul>
+
+    <div class="fly-panel fly-panel-user" pad20="">
+
+        <div class="layui-tab layui-tab-brief" lay-filter="user">
+            <ul class="layui-tab-title" id="LAY_mine">
+                <li data-type="mine-jie" lay-id="index" class="layui-this" th:if="${session.businessLogin != null}">
+                    我发布的兼职（<span id="fbSpan"></span>）
+                </li>
+                <li data-type="collection" data-url="/collection/find/" lay-id="collection" class="">
+                    我收藏的兼职（<span>0</span>）
+                </li>
+            </ul>
+            <div class="layui-tab-content" style="padding: 20px 0;">
+
+                <div class="layui-tab-item layui-show">
+                    <ul class="mine-view jie-row" id="demo001">
+<!--                        <li>-->
+<!--                            <a class="jie-title" href="../jie/detail.html" target="_blank">基于 layui 的极简社区页面模版</a>-->
+<!--                            <i>2017/3/14 上午8:30:00</i>-->
+<!--                            <a class="mine-edit" href="/business/edit">编辑</a>-->
+<!--                            <a class="mine-edit" onclick="deleteAJob(1)">删除</a>-->
+<!--                            <em>66浏览/10报名</em>-->
+<!--                        </li>-->
+                    </ul>
+                    <div id="demo7" class="page" style="text-align: center"></div>
+                </div>
+
+
+                <div class="layui-tab-item">
+                    <ul class="mine-view jie-row">
+                        <li>
+                            <a class="jie-title" href="javascript;" target="_blank">暂无数据</a>
+                            <i>收藏于0小时前</i>
+                        </li>
+                    </ul>
+                    <div id="LAY_page1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-tree-mobile layui-hide" id="mobileBtn">
+        <i class="layui-icon" id="mobileBtn2">&#xe602;</i>
+    </div>
+    <div class="site-mobile-shade"></div>
+</div>
+
+<div class="fly-footer">
+    <p><a href="http://fly.layui.com/" target="_blank">兼职</a> 2019/12/12 &copy; <a href="http://www.baidu.com/"
+                                                                                   target="_blank">www.wxwyz.com 出品</a>
+    </p>
+</div>
+<input type="hidden" id="busId" th:value="${session.businessLogin.id}" th:if="${session.businessLogin != null}">
+<input type="hidden" id="oneBusJob" th:value="${session.oneBusJobTotal}" th:if="${session.oneBusJobTotal != null}">
+
+<script th:src="@{../../static/res/layui/layui.js}"></script>
+
+<script th:src="@{../../static/res/mods/dateFormat.js}"></script>
+
+<script>
+
+    var total = 10;
+    var flag = 0;
+
+    function sendRecend(pageNum, pageSize) {
+        $.ajax({
+            url: "/business/job",
+            type: "GET",
+            data: {
+                page: pageNum,
+                size: pageSize,
+                bid: $('#busId').val()
+            },
+            success: function (date) {
+                for (var i = 0; i < date.length; i++) {
+                    total = date.length;
+                    $('#fbSpan').text(total);
+                    var dataRelease = getDateTimeStamp(date[i].partTimeJob.releaseTime);
+                    var ReleaseTime = timeago(dataRelease);
+
+                    $('#demo001').append(" <li>\n" +
+                        "                            <a class=\"jie-title\" href=\"/job/detail?jobId=" + date[i].partTimeJob.jobId + "\" target=\"_blank\">" + date[i].partTimeJob.jobTitle + "</a>\n" +
+                        "                            <i>" + ReleaseTime + "</i>\n" +
+                        "                            <a class=\"mine-edit\" href=\"/business/edit\">编辑</a>\n" +
+                        "                            <span class=\"mine-edit layui-bg-red\" class=\"deleteBtn\" values=\""+date[i].partTimeJob.jobId+"\">删除</span>\n" +
+                        "                            <em>" + date[i].partTimeJob.jobViews + "浏览/10报名</em>\n" +
+                        "                        </li>");
+                }
+            },
+            error: function () {
+                layer.msg('服务器冒烟啦！', {
+                    icon: 5,
+                    time: 2000
+                });
+            }
+        })
+    }
+
+    sendRecend(1, 10);
+
+    layui.use(['laypage', 'util', 'jquery', 'carousel', 'element', 'form', 'flow'], function () {
+        var laypage = layui.laypage, $ = layui.$, util = layui.util,
+            carousel = layui.carousel, form = layui.form, element = layui.element, flow = layui.flow;
+
+        $('#demo001 li span').click(function () {
+            console.log($(this).attr("values"));
+            var values1 = $(this).attr("values");
+            var index2 = layer.alert('是否要删除这个兼职', {
+                title: '提示'
+                , btn: ['确定', '取消']
+                , shadeClose: true
+                , id: 'LAY_layui2'
+                , icon: 6
+                , btnAlign: 'c'
+                , time: 8000
+                , anim: 1
+                , yes: function () {
+                    layer.close(index2);
+                    $.ajax({
+                        url: "/delete/job",
+                        type: "DELETE",
+                        data: {
+                            jid: values1,
+                            state: flag
+                        },
+                        beforeSend: function () {
+                            layer.load(2);
+                        },
+                        success: function (date) {
+                            if (date === "1") {
+                                layer.msg('删除成功', {
+                                    icon: 6,
+                                    time: 2000
+                                });
+                                $(this).parent().remove();
+                                console.log($(this).parent().remove());
+                            } else {
+                                layer.msg('删除失败，请稍后再试!', {
+                                    icon: 5,
+                                    time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            layer.closeAll('loading');
+                        },
+                        error: function () {
+                            layer.msg('服务器冒烟啦！', {
+                                icon: 5,
+                                time: 2000
+                            });
+                        }
+                    })
+                }
+                , btn2: function () {
+                    layer.closeAll();
+                    return false;
+                }
+            });
+        });
+
+        $("body").click(function (event) {
+            var $this = event.target;
+            // console.log($this.id);
+            if ($this.id === "mobileBtn" || $this.id === "mobileBtn2") {
+                $('body').addClass('site-mobile');
+            } else {
+                $('body').removeClass('site-mobile');
+            }
+        });
+
+        $(".page").each(function (i, the) {
+            laypage.render({
+                elem: the //注意，这里的 test1 是 ID，不用加 # 号
+                , count: total //数据总数，从服务端得到
+                , limit: 10                      //每页显示条数
+                , limits: [10, 20, 30]
+                , curr: 1                        //起始页
+                , groups: 5                      //连续页码个数
+                , prev: '上一页'                 //上一页文本
+                , next: '下一页'                 //下一页文本
+                , first: 1                      //首页文本
+                , last: 100                     //尾页文本
+                , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                //跳转页码时调用
+                , jump: function (obj, first) { //obj为当前页的属性和方法，第一次加载first为true
+                    //非首次加载 do something
+                    if (!first) {
+                        //清空以前加载的数据
+                        $('#info-list').empty();
+                        //调用加载函数加载数据
+                        sendRecend(obj.curr, obj.limit);
+                    }
+                }
+            });
+        })
+    });
+
+</script>
+
+</body>
+</html>

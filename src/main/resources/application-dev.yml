@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/my-part-time-job?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: root
+    password: 2017012636
+    type: com.alibaba.druid.pool.DruidDataSource
+    #druid数据源配置
+    filters: stat,wall
+    maxActive: 20
+    initialSize: 5
+    maxWait: 60000
+    minIdle: 10
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    maxOpenPreparedStatements: 50
+    removeAbandoned: true
+    removeAbandonedTimeout: 1800
+    logAbandoned: true
+  #thymeleaf模板引擎缓存
+  thymeleaf:
+    cache: false
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+
+mybatis:
+  mapper-locations: mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

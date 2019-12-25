@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>用户中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{../../static/res/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{../../static/res/css/global.css}">
+    <link id="layuicss-layer" rel="stylesheet" th:href="@{../../static/res/layui/css/modules/layer/default/layer.css}"
+          media="all">
+    <script th:src="@{../../static/res/mods/jquery-3.4.1.min.js}"></script>
+</head>
+<body>
+
+<div class="fly-header layui-bg-black">
+    <div class="layui-container">
+        <a class="fly-logo" th:href="@{/bus/home}">
+            <img th:src="@{../../static/res/images/logoko.png}" style="width: 83px;height: 40px" alt="logo">
+        </a>
+<!--        <ul class="layui-nav fly-nav layui-hide-xs">-->
+<!--            <li class="layui-nav-item layui-this">-->
+<!--                <a th:href="@{/bus/home}"><i class="iconfont icon-jiaoliu"></i>主页</a>-->
+<!--            </li>-->
+<!--            <li class="layui-nav-item">-->
+<!--                <a><i class="iconfont icon-iconmingxinganli"></i>公告</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+
+        <ul class="layui-nav fly-nav-user">
+            <!-- 登入后的状态 -->
+            <li class="layui-nav-item">
+                <a class="fly-nav-avatar" href="javascript:;">
+                    <cite class="layui-hide-xs" >rain</cite>
+                    <i class="layui-badge fly-badge-vip layui-hide-xs">admin</i>
+                    <img th:src="@{../../static/res/images/avatar/default.png}">
+                </a>
+                <dl class="layui-nav-child">
+<!--                    <hr style="margin: 5px 0;">-->
+                    <dd><a href="/logout" style="text-align: center;">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="layui-container fly-marginTop fly-user-main">
+    <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <i class="layui-icon">&#xe609;</i>
+                我的主页
+            </a>
+        </li>
+        <li class="layui-nav-item layui-this">
+            <a th:href="@{/bus/activate}">
+                <i class="layui-icon">&#xe612;</i>
+                用户信息中心
+            </a>
+        </li>
+        <li class="layui-nav-item">
+            <a th:href="@{/bus/setting}">
+                <i class="layui-icon">&#xe620;</i>
+                基本设置
+            </a>
+        </li>
+    </ul>
+
+    <div class="fly-panel fly-panel-user" pad20="">
+
+        <div class="layui-tab layui-tab-brief" lay-filter="user">
+            <ul class="layui-tab-title" id="LAY_mine">
+                <li data-type="mine-jie" lay-id="index" class="layui-this">
+                    所有的兼职（<span id="fbSpan"></span>）
+                </li>
+                <li data-type="collection" id="li002" data-url="/collection/find/" lay-id="collection" class="">
+                    所有已经删除的兼职（<span id="fbSpan2">0</span>）
+                </li>
+            </ul>
+            <div class="layui-tab-content" style="padding: 20px 0;">
+
+                <div class="layui-tab-item layui-show">
+                    <ul class="fly-list" id="demo001">
+<!--                        <li>-->
+<!--                            <a href="user/home.html" class="fly-avatar">-->
+<!--                                <img alt="贤心">-->
+<!--                            </a>-->
+<!--                            <h2>-->
+<!--                                <a class="layui-badge">兼职</a>-->
+<!--                                <a>基于 layui 的极简社区页面模版</a>-->
+<!--                            </h2>-->
+<!--                            <div class="fly-list-info">-->
+<!--                                <a link>-->
+<!--                                    <cite>贤心</cite>-->
+<!--                                    <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>-->
+<!--                                </a>-->
+<!--                                <span>刚刚</span>-->
+<!--                                <span class="fly-list-kiss layui-hide-xs" title="浏览人数"><i-->
+<!--                                        class="iconfont icon-kiss"></i> 60</span>-->
+<!--                                <span class="fly-list-nums"><i class="iconfont icon-pinglun1" title="回答"></i> 66</span>-->
+<!--                            </div>-->
+<!--                            <div class="fly-list-badge">-->
+<!--                                <span class="layui-badge layui-bg-red">删除</span>-->
+<!--                            </div>-->
+<!--                        </li>-->
+
+                    </ul>
+                    <div id="demo7" class="page" style="text-align: center"></div>
+                </div>
+
+                <div class="layui-tab-item">
+
+                    <ul class="fly-list" id="demo002">
+                        <li>
+                            <a href="user/home.html" class="fly-avatar">
+                                <img alt="贤心">
+                            </a>
+                            <h2>
+                                <a class="layui-badge">兼职</a>
+                                <a>基于 layui 的极简社区页面模版</a>
+                            </h2>
+                            <div class="fly-list-info">
+                                <a link>
+                                    <cite>贤心</cite>
+                                    <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
+                                </a>
+                                <span>刚刚</span>
+                                <span class="fly-list-kiss layui-hide-xs" title="浏览人数"><i
+                                        class="iconfont icon-kiss"></i> 60</span>
+                                <span class="fly-list-nums"><i class="iconfont icon-pinglun1" title="回答"></i> 66</span>
+                            </div>
+                            <div class="fly-list-badge">
+                                <span class="layui-badge layui-bg-red">删除</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div id="demo8" class="page2" style="text-align: center"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-tree-mobile layui-hide" id="mobileBtn">
+        <i class="layui-icon" id="mobileBtn2">&#xe602;</i>
+    </div>
+    <div class="site-mobile-shade"></div>
+</div>
+
+<div class="fly-footer">
+    <p><a href="http://fly.layui.com/" target="_blank">兼职</a> 2019/12/12 &copy; <a href="http://www.baidu.com/"
+                                                                                   target="_blank">www.wxwyz.com 出品</a>
+    </p>
+</div>
+<input type="hidden" id="busId" th:value="${session.businessLogin.id}" th:if="${session.businessLogin != null}">
+<input type="hidden" id="oneBusJob" th:value="${session.oneBusJobTotal}" th:if="${session.oneBusJobTotal != null}">
+
+<script th:src="@{../../static/res/layui/layui.js}"></script>
+
+<script th:src="@{../../static/res/mods/dateFormat.js}"></script>
+
+<script>
+
+    var total = 10;
+    var total2 = 10;
+    var flag = 0;
+
+    function sendRecend(pageNum, pageSize) {
+        $.ajax({
+            url: "/admin/all/job",
+            type: "GET",
+            data: {
+                page: pageNum,
+                size: pageSize,
+            },
+            success: function (date) {
+                for (var i = 0; i < date.length; i++) {
+                    total = date.length;
+                    $('#fbSpan').text(total);
+                    var dataRelease = getDateTimeStamp(date[i].partTimeJob.releaseTime);
+                    var ReleaseTime = timeago(dataRelease);
+
+                    $('#demo001').append(" <li>\n" +
+                        "                        <a class=\"fly-avatar\">\n" +
+                        "                            <img src=\"" + date[i].avatars + "\"\n" +
+                        "                                 alt=\"未知\">\n" +
+                        "                        </a>\n" +
+                        "                        <h2>\n" +
+                        "                            <a class=\"layui-badge\">" + date[i].partTimeJob.jobType + "</a>\n" +
+                        "                            <a href=\"/job/detail?jobId="+date[i].partTimeJob.jobId+"\">" + date[i].partTimeJob.jobTitle + "</a>\n" +
+                        "                        </h2>\n" +
+                        "                        <div class=\"fly-list-info\">\n" +
+                        "                            <a link>\n" +
+                        "                                <cite>" + date[i].nickname + "</cite>\n" +
+                        "                                <i class=\"iconfont icon-renzheng\" title=\"认证信息：商家\"></i>\n" +
+                        "\n" +
+                        "                            </a>\n" +
+                        "                            <span>" + ReleaseTime + "</span>\n" +
+                        "\n" +
+                        "                            <span class=\"fly-list-kiss layui-hide-xs\" title=\"薪水\"><i class=\"iconfont icon-kiss\"></i>" + date[i].partTimeJob.jobSalary + "元/日</span>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"fly-list-badge\">\n" +
+                        "                            <p class=\"layui-badge layui-bg-red\" values=\""+date[i].partTimeJob.jobId+"\">删除</p>\n" +
+                        "                        </div>\n" +
+                        "                    </li>");
+                }
+            },
+            error: function () {
+                layer.msg('服务器冒烟啦！', {
+                    icon: 5,
+                    time: 2000
+                });
+            }
+        })
+    }
+
+    function sendRecend2(pageNum, pageSize) {
+        $.ajax({
+            url: "/admin/all/deletejob",
+            type: "GET",
+            data: {
+                page: pageNum,
+                size: pageSize,
+                state: flag
+            },
+            success: function (date2) {
+                if (date2 == null){
+                    total2 = 0;
+                }
+                for (var i = 0; i < date2.length; i++) {
+                    total2 = date2.length;
+                    $('#fbSpan2').text(total2);
+                    var dataRelease = getDateTimeStamp(date2[i].partTimeJob.releaseTime);
+                    var ReleaseTime = timeago(dataRelease);
+
+                    $('#demo002').append(" <li>\n" +
+                        "                        <a class=\"fly-avatar\">\n" +
+                        "                            <img src=\"" + date2[i].avatars + "\"\n" +
+                        "                                 alt=\"未知\">\n" +
+                        "                        </a>\n" +
+                        "                        <h2>\n" +
+                        "                            <a class=\"layui-badge\">" + date2[i].partTimeJob.jobType + "</a>\n" +
+                        "                            <a href=\"/job/detail?jobId="+date2[i].partTimeJob.jobId+"\">" + date2[i].partTimeJob.jobTitle + "</a>\n" +
+                        "                        </h2>\n" +
+                        "                        <div class=\"fly-list-info\">\n" +
+                        "                            <a link>\n" +
+                        "                                <cite>" + date2[i].nickname + "</cite>\n" +
+                        "                                <i class=\"iconfont icon-renzheng\" title=\"认证信息：商家\"></i>\n" +
+                        "\n" +
+                        "                            </a>\n" +
+                        "                            <span>" + ReleaseTime + "</span>\n" +
+                        "\n" +
+                        "                            <span class=\"fly-list-kiss layui-hide-xs\" title=\"薪水\"><i class=\"iconfont icon-kiss\"></i>" + date2[i].partTimeJob.jobSalary + "元/日</span>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"fly-list-badge\">\n" +
+                        "                            <p class=\"layui-badge layui-bg-red\" values=\""+date2[i].partTimeJob.jobId+"\">删除</p>\n" +
+                        "                        </div>\n" +
+                        "                    </li>");
+                }
+            },
+            error: function () {
+                layer.msg('服务器冒烟啦！', {
+                    icon: 5,
+                    time: 2000
+                });
+            }
+        })
+    }
+
+    sendRecend(1, 10);
+
+    //sendRecend2(1, 10);
+
+    layui.use(['laypage', 'util', 'jquery', 'carousel', 'element', 'form', 'flow'], function () {
+        var laypage = layui.laypage, $ = layui.$, util = layui.util,
+            carousel = layui.carousel, form = layui.form, element = layui.element, flow = layui.flow;
+
+        $('#li002').click(function () {
+            $('#demo002').empty();
+            sendRecend2(1, 10);
+        });
+
+
+        $('#demo001 li div p').click(function () {
+            console.log($(this).attr("values"));
+            var values1 = $(this).attr("values");
+            var index2 = layer.alert('是否要删除这个兼职', {
+                title: '提示'
+                , btn: ['确定', '取消']
+                , shadeClose: true
+                , id: 'LAY_layui2'
+                , icon: 6
+                , btnAlign: 'c'
+                , time: 8000
+                , anim: 1
+                , yes: function () {
+                    layer.close(index2);
+                    $.ajax({
+                        url: "/admin/delete/job",
+                        type: "DELETE",
+                        data: {
+                            jid: values1,
+                        },
+                        beforeSend: function () {
+                            layer.load(2);
+                        },
+                        success: function (date) {
+                            if (date === "1") {
+                                layer.msg('删除成功', {
+                                    icon: 6,
+                                    time: 2000
+                                });
+                                $(this).parent().remove();
+                                console.log($(this).parent().remove());
+                            } else {
+                                layer.msg('删除失败，请稍后再试!', {
+                                    icon: 5,
+                                    time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            layer.closeAll('loading');
+                        },
+                        error: function () {
+                            layer.msg('服务器冒烟啦！', {
+                                icon: 5,
+                                time: 2000
+                            });
+                        }
+                    })
+                }
+                , btn2: function () {
+                    layer.closeAll();
+                    return false;
+                }
+            });
+        });
+
+        $('#demo002 li div p').click(function () {
+            console.log($(this).attr("values"));
+            var values1 = $(this).attr("values");
+            var index2 = layer.alert('是否要删除这个兼职', {
+                title: '提示'
+                , btn: ['确定', '取消']
+                , shadeClose: true
+                , id: 'LAY_layui2'
+                , icon: 6
+                , btnAlign: 'c'
+                , time: 8000
+                , anim: 1
+                , yes: function () {
+                    layer.close(index2);
+                    $.ajax({
+                        url: "/admin/delete/job",
+                        type: "DELETE",
+                        data: {
+                            jid: values1,
+                        },
+                        beforeSend: function () {
+                            layer.load(2);
+                        },
+                        success: function (date) {
+                            if (date === "1") {
+                                layer.msg('删除成功', {
+                                    icon: 6,
+                                    time: 2000
+                                });
+                                $(this).parent().remove();
+                                console.log($(this).parent().remove());
+                            } else {
+                                layer.msg('删除失败，请稍后再试!', {
+                                    icon: 5,
+                                    time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            layer.closeAll('loading');
+                        },
+                        error: function () {
+                            layer.msg('服务器冒烟啦！', {
+                                icon: 5,
+                                time: 2000
+                            });
+                        }
+                    })
+                }
+                , btn2: function () {
+                    layer.closeAll();
+                    return false;
+                }
+            });
+        });
+
+
+        $("body").click(function (event) {
+            var $this = event.target;
+            // console.log($this.id);
+            if ($this.id === "mobileBtn" || $this.id === "mobileBtn2") {
+                $('body').addClass('site-mobile');
+            } else {
+                $('body').removeClass('site-mobile');
+            }
+        });
+
+        $(".page").each(function (i, the) {
+            laypage.render({
+                elem: the //注意，这里的 test1 是 ID，不用加 # 号
+                , count: total //数据总数，从服务端得到
+                , limit: 10                      //每页显示条数
+                , limits: [10, 20, 30]
+                , curr: 1                        //起始页
+                , groups: 5                      //连续页码个数
+                , prev: '上一页'                 //上一页文本
+                , next: '下一页'                 //下一页文本
+                , first: 1                      //首页文本
+                , last: 100                     //尾页文本
+                , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                //跳转页码时调用
+                , jump: function (obj, first) { //obj为当前页的属性和方法，第一次加载first为true
+                    //非首次加载 do something
+                    if (!first) {
+                        //清空以前加载的数据
+                        $('#demo001').empty();
+                        //调用加载函数加载数据
+                        sendRecend(obj.curr, obj.limit);
+                    }
+                }
+            });
+        })
+
+        $(".page2").each(function (i, the) {
+            laypage.render({
+                elem: the //注意，这里的 test1 是 ID，不用加 # 号
+                , count: total2 //数据总数，从服务端得到
+                , limit: 10                      //每页显示条数
+                , limits: [10, 20, 30]
+                , curr: 1                        //起始页
+                , groups: 5                      //连续页码个数
+                , prev: '上一页'                 //上一页文本
+                , next: '下一页'                 //下一页文本
+                , first: 1                      //首页文本
+                , last: 100                     //尾页文本
+                , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                //跳转页码时调用
+                , jump: function (obj, first) { //obj为当前页的属性和方法，第一次加载first为true
+                    //非首次加载 do something
+                    if (!first) {
+                        //清空以前加载的数据
+                        $('#demo002').empty();
+                        //调用加载函数加载数据
+                        sendRecend2(obj.curr, obj.limit);
+                    }
+                }
+            });
+        })
+
+
+
+    });
+
+
+</script>
+
+</body>
+</html>

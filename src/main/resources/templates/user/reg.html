@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>注册</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" th:href="@{../../static/res/layui/css/layui.css}">
+  <link rel="stylesheet" th:href="@{../../static/res/css/global.css}">
+</head>
+<body>
+
+<div class="fly-header layui-bg-black">
+  <div class="layui-container">
+    <a class="fly-logo" th:href="@{/}">
+      <img th:src="@{../static/res/images/logoko.png}" style="width: 83px;height: 40px" alt="logo">
+    </a>
+    <ul class="layui-nav fly-nav layui-hide-xs">
+      <li class="layui-nav-item layui-this">
+        <a th:href="@{/}"><i class="iconfont icon-jiaoliu"></i>主页</a>
+      </li>
+      <li class="layui-nav-item">
+        <a><i class="iconfont icon-iconmingxinganli"></i>案例</a>
+      </li>
+    </ul>
+    
+    <ul class="layui-nav fly-nav-user">
+      <!-- 未登入的状态 -->
+      <li class="layui-nav-item">
+        <a class="iconfont icon-touxiang layui-hide-xs" th:href="@{/user/login}"></a>
+      </li>
+      <li class="layui-nav-item">
+        <a th:href="@{/user/login}">登入</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="layui-container fly-marginTop">
+  <div class="fly-panel fly-panel-user" pad20>
+    <div class="layui-tab layui-tab-brief" lay-filter="user">
+      <ul class="layui-tab-title">
+        <li class="layui-this"><a th:href="@{/user/reg}">普通用户注册</a></li>
+        <li><a th:href="@{/bus/reg}">商家注册</a></li>
+      </ul>
+
+      <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+        <div class="layui-tab-item layui-show">
+          <div class="layui-form layui-form-pane">
+
+              <div class="layui-form-item">
+                <label for="L_username" class="layui-form-label">账号</label>
+                <div class="layui-input-inline">
+                  <input type="text" id="L_username" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">将会成为您唯一的登入名</div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_nickname" class="layui-form-label">昵称</label>
+                <div class="layui-input-inline">
+                  <input type="text" id="L_nickname" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+            <div class="layui-form-item">
+              <label for="L_realname" class="layui-form-label">真实姓名</label>
+              <div class="layui-input-inline">
+                <input type="text" id="L_realname" required lay-verify="required" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+              <div class="layui-form-item">
+                <label for="L_pass" class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                  <input type="password" id="L_pass" name="pass" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label">确认密码</label>
+                <div class="layui-input-inline">
+                  <input type="password" id="L_repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+
+              <div class="layui-form-item">
+                <label for="L_vercode" class="layui-form-label">注册验证</label>
+                <div class="layui-input-inline">
+                  <input type="text" id="L_vercode" name="vercode" required lay-verify="required" placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid">
+                  <span style="color: #c00;"></span>
+                </div>
+              </div>
+
+              <div class="layui-form-item">
+                <button class="layui-btn" lay-filter="*" lay-submit>立即注册</button>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="fly-footer">
+  <p><a href="http://fly.layui.com/" target="_blank">兼职</a> 2019/12/12 &copy; <a href="http://www.baidu.com/" target="_blank">www.wxwyz.com 出品</a></p>
+</div>
+
+<script th:src="@{../../static/res/layui/layui.js}"></script>
+<script>
+
+</script>
+
+</body>
+</html>
